@@ -1,4 +1,4 @@
-import {Cheerio, CheerioAPI, Element} from "cheerio";
+import {Cheerio, CheerioAPI} from "cheerio";
 import {QuestionElem} from "../types/element";
 import {
   Question,
