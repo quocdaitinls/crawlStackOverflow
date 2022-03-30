@@ -3,7 +3,7 @@ import {StackOverflowQuestion} from "../../types/stackoverflow";
 import {crawlFromUrls} from "../../utils/crawl";
 
 type RequestBody = {
-  urls: string[];
+  tags: string[];
 };
 
 export const generateByListUrls: RequestHandler<
@@ -11,8 +11,7 @@ export const generateByListUrls: RequestHandler<
   StackOverflowQuestion[],
   RequestBody
 > = async (req, res) => {
-  const {urls} = req.body;
-  const result = await crawlFromUrls(urls);
-
-  return res.send(result);
+  // const {urls} = req.body;
+  // const result = await crawlFromUrls(urls);
+  // return res.send(result);
 };
