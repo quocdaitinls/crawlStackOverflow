@@ -3,6 +3,6 @@ import questionRouter from "./question";
 
 const router = Router();
 
-router.post("/question", questionRouter);
+router.use("/question", questionRouter);
 
 export default router;
