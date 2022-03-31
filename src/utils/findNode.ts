@@ -27,7 +27,7 @@ export const getCommentsNode: FindNodeFn<CommentElem> = (box: CheerioAPI) =>
   box<CommentElem, string>(".comment");
 
 export const getCommentValueNode: FindNodeFn = (cmt: Cheerio<CommentElem>) =>
-  cmt.find("comment-copy");
+  cmt.find(".comment-copy");
 
 export const getCommentDateNode: FindNodeFn = (cmt: Cheerio<CommentElem>) =>
   cmt.find("span.relativetime-clean");
