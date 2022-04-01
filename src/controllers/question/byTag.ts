@@ -5,7 +5,6 @@ import {fetchPostsIdByTag} from "../../utils/fetchPostIsdByTag";
 
 type RequestBody = {
   tag: string;
-  count: number;
 };
 
 export const generateByTag: RequestHandler<
@@ -13,8 +12,8 @@ export const generateByTag: RequestHandler<
   StackOverflowQuestion[],
   RequestBody
 > = async (req, res) => {
-  const {tag, count} = req.body;
-  const listId = await fetchPostsIdByTag(tag, count);
+  const {tag} = req.body;
+  const listId = await fetchPostsIdByTag(tag);
   const result = await crawlFromIds(listId);
 
   return res.send(result);
