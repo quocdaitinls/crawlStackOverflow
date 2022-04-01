@@ -1,57 +1,50 @@
-import {Cheerio, CheerioAPI} from "cheerio";
-import {QuestionElem} from "../types/element";
+import {Cheerio, CheerioAPI, Element} from "cheerio";
 import {
   Question,
   StackOverflowPost,
   StackOverflowQuestion,
 } from "../types/stackoverflow";
-import {
-  convertToList,
-  getAnswerPostsNode,
-  getPostBodyNode,
-  getQuestionPostNode,
-  getQuestionTitleNode,
-} from "../utils/findNode";
 import {getContent} from "../utils/getContent";
 import {getAnswerId, getQuestionId} from "../utils/getId";
 import {getComments} from "./getComments";
 import {getTags} from "./getTags";
 
-export const parseDataFromPost = async <E>(
+export const parseDataFromPost = <E extends Element>(
+  doc: CheerioAPI,
   post: Cheerio<E>,
   getIdFnc: (post: Cheerio<E>) => string
-): Promise<StackOverflowPost> => {
-  const body = getPostBodyNode(post);
-
-  const id = getIdFnc(post);
-  const content = getContent(body);
-  const comments = await getComments(id);
+): StackOverflowPost => {
+  const postBody = post.find(".js-post-body");
 
   return {
-    id,
-    content,
-    comments,
+    id: getIdFnc(post),
+    content: getContent(postBody),
+    comments: getComments(doc, getIdFnc(post)),
   };
 };
 
-export const parseDataFromQuestionPost = async (
-  post: Cheerio<QuestionElem>
-): Promise<Question> => ({
-  ...(await parseDataFromPost(post, getQuestionId)),
-  tags: getTags(post),
+export const parseDataFromQuestionPost = <E extends Element>(
+  doc: CheerioAPI,
+  post: Cheerio<E>
+): Question => ({
+  ...parseDataFromPost(doc, post, getQuestionId),
+  tags: getTags(doc, post),
 });
 
 export const parseDataFromDoc = async (
   doc: CheerioAPI
 ): Promise<StackOverflowQuestion> => {
-  const questionPost = getQuestionPostNode(doc);
-  const answerPosts = convertToList(doc, getAnswerPostsNode(doc));
+  const questionPost = doc("#question");
+  const answerNodes = doc(".answer");
 
-  const title = getQuestionTitleNode(doc).text();
-  const question = await parseDataFromQuestionPost(questionPost);
-  const answers = await Promise.all(
-    answerPosts.map((answerPost) => parseDataFromPost(answerPost, getAnswerId))
-  );
+  let title = doc("#question-header h1").text();
+  let question = parseDataFromQuestionPost(doc, questionPost);
+  let answers: StackOverflowPost[] = [];
+
+  answerNodes.each((index, answerNode) => {
+    let answer = doc(answerNode);
+    answers[index] = parseDataFromPost(doc, answer, getAnswerId);
+  });
 
   return {
     title,

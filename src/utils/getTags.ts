@@ -1,18 +1,15 @@
-import {Cheerio} from "cheerio";
-import {QuestionElem} from "../types/element";
-import {getQuestionTagsNode} from "../utils/findNode";
+import {Cheerio, CheerioAPI, Element} from "cheerio";
 
-export const getTags = (questionPost: Cheerio<QuestionElem>) => {
-  const MARKUP_CHARACTER = "<~>";
+export const getTags = <E extends Element>(
+  doc: CheerioAPI,
+  questionPost: Cheerio<E>
+) => {
+  let result: string[] = [];
+  const tagNodes = questionPost.find(".post-tag");
 
-  const wrapTagValue = (tag: string) =>
-    `${MARKUP_CHARACTER}${tag}${MARKUP_CHARACTER}`;
+  tagNodes.each((index, tagNode) => {
+    result[index] = doc(tagNode).text();
+  });
 
-  const questionTagsNode = getQuestionTagsNode(questionPost);
-
-  return questionTagsNode
-    .text((number, str) => wrapTagValue(str))
-    .text()
-    .split(MARKUP_CHARACTER)
-    .filter((text) => text !== "");
+  return result;
 };

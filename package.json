@@ -22,6 +22,7 @@
     "express": "^4.17.3",
     "html-to-text": "^8.1.0",
     "node-fetch": "^2.6.7",
+    "proxycrawl": "^2.5.0",
     "request": "^2.88.2",
     "swagger-ui-express": "^4.3.0",
     "ts-node": "^10.7.0"

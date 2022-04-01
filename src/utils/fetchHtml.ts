@@ -1,29 +1,20 @@
-import fetch from "node-fetch";
-import request from "request";
-import util from "util";
+import {CrawlingAPI} from "proxycrawl";
 import {createFetchCommentUrlByPostId} from "./createUrl";
-import {generateProxy} from "./generateProxy";
 
-const myRequest = util.promisify(request);
+const PROXYCRAWL_TOKEN = "qO1X1Vf7unKBsxi8Yp3z6g";
 
-export const fetchHTMLString = async (url: string) => {
-  const htmlStr = await fetch(url, {method: "GET"}).then((response) =>
-    response.text()
-  );
+export const fetchHTMLString = async (url: string): Promise<string> => {
+  const api = new CrawlingAPI({token: PROXYCRAWL_TOKEN});
 
-  return htmlStr;
-};
+  const htmlString = await api
+    .get(url)
+    .then((res) => res.body)
+    .catch((err) => {
+      console.log(err);
+      return "";
+    });
 
-export const fetchHtmlStringWithProxy = async (url: string) => {
-  const proxy = await generateProxy();
-
-  const htmlStr = await myRequest({
-    url,
-    method: "GET",
-    proxy,
-  }).then((res) => res.body);
-
-  return htmlStr;
+  return htmlString;
 };
 
 export const fetchCommentsOfPost = async (postId: string) => {
