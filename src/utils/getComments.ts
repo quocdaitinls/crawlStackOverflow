@@ -26,8 +26,8 @@ export const getComments = (
     postId ? `#comments-${postId} .comment` : ".comment"
   ) as SelectorType;
   const commentNodes = box(selector);
-
   let result: StackOverflowComment[] = [];
+
   commentNodes.each((index, cmtNode) => {
     result[index] = parseComment(box, cmtNode);
   });
@@ -36,9 +36,10 @@ export const getComments = (
 };
 
 export const fetchAllComments = async (
-  postId: string
+  postId: string,
+  token: string
 ): Promise<StackOverflowComment[]> => {
-  const htmlString = await fetchCommentsOfPost(postId);
+  const htmlString = await fetchCommentsOfPost(postId, token);
   const boxCmt = cheerio.load(htmlString);
 
   return getComments(boxCmt);

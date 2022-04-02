@@ -3,8 +3,11 @@ import {createFetchCommentUrlByPostId} from "./createUrl";
 
 const PROXYCRAWL_TOKEN = "qO1X1Vf7unKBsxi8Yp3z6g";
 
-export const fetchHTMLString = async (url: string): Promise<string> => {
-  const api = new CrawlingAPI({token: PROXYCRAWL_TOKEN});
+export const fetchHTMLString = async (
+  url: string,
+  token: string
+): Promise<string> => {
+  const api = new CrawlingAPI({token});
 
   const htmlString = await api
     .get(url)
@@ -17,9 +20,9 @@ export const fetchHTMLString = async (url: string): Promise<string> => {
   return htmlString;
 };
 
-export const fetchCommentsOfPost = async (postId: string) => {
+export const fetchCommentsOfPost = async (postId: string, token: string) => {
   const url = createFetchCommentUrlByPostId(postId);
-  const commentsHtmlString = await fetchHTMLString(url);
+  const commentsHtmlString = await fetchHTMLString(url, token);
 
   return `<ul>${commentsHtmlString}</ul>`;
 };

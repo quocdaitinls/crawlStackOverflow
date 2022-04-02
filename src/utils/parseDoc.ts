@@ -4,12 +4,12 @@ import {
   StackOverflowPost,
   StackOverflowQuestion,
 } from "../types/stackoverflow";
-import {getContent} from "../utils/getContent";
-import {getAnswerId, getQuestionId} from "../utils/getId";
+import {getContent} from "./getContent";
+import {getAnswerId, getQuestionId} from "./getId";
 import {getComments} from "./getComments";
 import {getTags} from "./getTags";
 
-export const parseDataFromPost = <E extends Element>(
+export const parsePost = <E extends Element>(
   doc: CheerioAPI,
   post: Cheerio<E>,
   getIdFnc: (post: Cheerio<E>) => string
@@ -23,27 +23,25 @@ export const parseDataFromPost = <E extends Element>(
   };
 };
 
-export const parseDataFromQuestionPost = <E extends Element>(
+export const parseQuestionPost = <E extends Element>(
   doc: CheerioAPI,
   post: Cheerio<E>
 ): Question => ({
-  ...parseDataFromPost(doc, post, getQuestionId),
+  ...parsePost(doc, post, getQuestionId),
   tags: getTags(doc, post),
 });
 
-export const parseDataFromDoc = async (
-  doc: CheerioAPI
-): Promise<StackOverflowQuestion> => {
+const parseDoc = async (doc: CheerioAPI): Promise<StackOverflowQuestion> => {
   const questionPost = doc("#question");
   const answerNodes = doc(".answer");
 
   let title = doc("#question-header h1").text();
-  let question = parseDataFromQuestionPost(doc, questionPost);
+  let question = parseQuestionPost(doc, questionPost);
   let answers: StackOverflowPost[] = [];
 
   answerNodes.each((index, answerNode) => {
     let answer = doc(answerNode);
-    answers[index] = parseDataFromPost(doc, answer, getAnswerId);
+    answers[index] = parsePost(doc, answer, getAnswerId);
   });
 
   return {
@@ -52,3 +50,5 @@ export const parseDataFromDoc = async (
     answers,
   };
 };
+
+export default parseDoc;

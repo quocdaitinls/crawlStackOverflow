@@ -1,18 +1,19 @@
 import {RequestHandler} from "express";
+import {MyRequestBody} from "../../types/request";
 import {StackOverflowQuestion} from "../../types/stackoverflow";
 import {crawlFromId} from "../../utils/crawl";
 
-type RequestBody = {
+interface Body extends MyRequestBody {
   id: string;
-};
+}
 
 export const generateById: RequestHandler<
   {},
   StackOverflowQuestion,
-  RequestBody
+  Body
 > = async (req, res) => {
-  const {id} = req.body;
-  const result = await crawlFromId(id);
+  const {id, proxyToken} = req.body;
+  const result = await crawlFromId(id, proxyToken);
 
   return res.send(result);
 };

@@ -1,22 +1,22 @@
 import {fetchHTMLString} from "./fetchHtml";
 import cheerio from "cheerio";
-import {parseDataFromDoc} from "./parseDataFromDoc";
+import parseDoc from "./parseDoc";
 import {createFetchQuestionHtmlUrlById} from "./createUrl";
 
-export const crawlFromUrl = async (url: string) => {
-  const htmlString = await fetchHTMLString(url);
+export const crawlFromUrl = async (url: string, token: string) => {
+  const htmlString = await fetchHTMLString(url, token);
   const doc = cheerio.load(htmlString);
 
-  return parseDataFromDoc(doc);
+  return parseDoc(doc);
 };
 
-export const crawlFromUrls = async (urls: string[]) =>
-  Promise.all(urls.map((url) => crawlFromUrl(url)));
+export const crawlFromUrls = async (urls: string[], token: string) =>
+  Promise.all(urls.map((url) => crawlFromUrl(url, token)));
 
-export const crawlFromId = async (id: string) => {
+export const crawlFromId = async (id: string, token: string) => {
   const url = createFetchQuestionHtmlUrlById(id);
-  return crawlFromUrl(url);
+  return crawlFromUrl(url, token);
 };
 
-export const crawlFromIds = async (ids: string[]) =>
-  Promise.all(ids.map((id) => crawlFromId(id)));
+export const crawlFromIds = async (ids: string[], token: string) =>
+  Promise.all(ids.map((id) => crawlFromId(id, token)));

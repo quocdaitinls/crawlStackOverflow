@@ -1,20 +1,21 @@
 import {RequestHandler} from "express";
+import {MyRequestBody} from "../../types/request";
 import {StackOverflowQuestion} from "../../types/stackoverflow";
 import {crawlFromIds} from "../../utils/crawl";
 import {fetchPostsIdByTag} from "../../utils/fetchPostIsdByTag";
 
-type RequestBody = {
+interface Body extends MyRequestBody {
   tag: string;
-};
+}
 
 export const generateByTag: RequestHandler<
   {},
   StackOverflowQuestion[],
-  RequestBody
+  Body
 > = async (req, res) => {
-  const {tag} = req.body;
-  const listId = await fetchPostsIdByTag(tag);
-  const result = await crawlFromIds(listId);
+  const {tag, proxyToken} = req.body;
+  const listId = await fetchPostsIdByTag(tag, proxyToken);
+  const result = await crawlFromIds(listId, proxyToken);
 
   return res.send(result);
 };

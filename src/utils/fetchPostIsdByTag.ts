@@ -2,8 +2,8 @@ import cheerio from "cheerio";
 import {createFetchQuestionsHtmlUrlByTag} from "./createUrl";
 import {fetchHTMLString} from "./fetchHtml";
 
-const fetchPostsIdByUrl = async (url: string) => {
-  const htmlString = await fetchHTMLString(url);
+const fetchPostsIdByUrl = async (url: string, token: string) => {
+  const htmlString = await fetchHTMLString(url, token);
   const doc = cheerio.load(htmlString);
 
   let result: string[] = [];
@@ -16,7 +16,7 @@ const fetchPostsIdByUrl = async (url: string) => {
   return result;
 };
 
-export const fetchPostsIdByTag = async (tag: string) => {
+export const fetchPostsIdByTag = async (tag: string, token: string) => {
   const url = createFetchQuestionsHtmlUrlByTag(tag, 1);
-  return fetchPostsIdByUrl(url);
+  return fetchPostsIdByUrl(url, token);
 };
