@@ -4,18 +4,18 @@ import {StackOverflowQuestion} from "../../types/stackoverflow";
 import {crawlFromIds} from "../../utils/crawl";
 import {fetchPostsIdByTag} from "../../utils/fetchPostIsdByTag";
 
-interface Body extends MyRequestBody {
+interface ReqBody extends MyRequestBody {
   tag: string;
 }
 
 export const generateByTag: RequestHandler<
   {},
   StackOverflowQuestion[],
-  Body
+  ReqBody
 > = async (req, res) => {
   const {tag, proxyToken} = req.body;
   const listId = await fetchPostsIdByTag(tag, proxyToken);
   const result = await crawlFromIds(listId, proxyToken);
 
-  return res.send(result);
+  return res.status(200).json(result);
 };

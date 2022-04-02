@@ -1,8 +1,6 @@
 import {CrawlingAPI} from "proxycrawl";
 import {createFetchCommentUrlByPostId} from "./createUrl";
 
-const PROXYCRAWL_TOKEN = "qO1X1Vf7unKBsxi8Yp3z6g";
-
 export const fetchHTMLString = async (
   url: string,
   token: string
