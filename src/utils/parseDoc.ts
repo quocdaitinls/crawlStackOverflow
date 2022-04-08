@@ -26,12 +26,12 @@ export const parsePost = <E extends Element>(
 export const parseQuestionPost = <E extends Element>(
   doc: CheerioAPI,
   post: Cheerio<E>
-): Question => ({
+): StackOverflowQuestion => ({
   ...parsePost(doc, post, getQuestionId),
   tags: getTags(doc, post),
 });
 
-const parseDoc = async (doc: CheerioAPI): Promise<StackOverflowQuestion> => {
+const parseDoc = async (doc: CheerioAPI): Promise<Question> => {
   const questionPost = doc("#question");
   const answerNodes = doc(".answer");
 

@@ -10,12 +10,12 @@ export interface StackOverflowPost {
   comments?: StackOverflowComment[];
 }
 
-export interface Question extends StackOverflowPost {
+export interface StackOverflowQuestion extends StackOverflowPost {
   tags: string[];
 }
 
-export type StackOverflowQuestion = {
+export type Question = {
   title: string;
-  question: Question;
+  question: StackOverflowQuestion;
   answers: StackOverflowPost[];
 };

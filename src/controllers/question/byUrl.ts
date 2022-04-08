@@ -1,16 +1,15 @@
 import {RequestHandler} from "express";
-import {MyRequestBody} from "../../types/request";
-import {StackOverflowQuestion} from "../../types/stackoverflow";
+import {BaseRequestBody} from "../../types/request";
+import {Question} from "../../types/stackoverflow";
 import {crawlFromUrl} from "../../utils/crawl";
-interface ReqBody extends MyRequestBody {
+interface ReqBody extends BaseRequestBody {
   url: string;
 }
 
-export const generateByUrl: RequestHandler<
-  {},
-  StackOverflowQuestion,
-  ReqBody
-> = async (req, res) => {
+export const generateByUrl: RequestHandler<{}, Question, ReqBody> = async (
+  req,
+  res
+) => {
   const {url, proxyToken} = req.body;
   const result = await crawlFromUrl(url, proxyToken);
 

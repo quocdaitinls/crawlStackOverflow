@@ -1,15 +1,15 @@
 import {RequestHandler} from "express";
-import {MyRequestBody} from "../../types/request";
-import {StackOverflowQuestion} from "../../types/stackoverflow";
+import {BaseRequestBody} from "../../types/request";
+import {Question} from "../../types/stackoverflow";
 import {crawlFromIds} from "../../utils/crawl";
 
-interface ReqBody extends MyRequestBody {
+interface ReqBody extends BaseRequestBody {
   ids: string[];
 }
 
 export const generateByListIds: RequestHandler<
   {},
-  StackOverflowQuestion[],
+  Question[],
   ReqBody
 > = async (req, res) => {
   const {ids, proxyToken} = req.body;

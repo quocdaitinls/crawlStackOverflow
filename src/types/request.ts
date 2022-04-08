@@ -1,3 +1,3 @@
-export interface MyRequestBody {
+export interface BaseRequestBody {
   proxyToken: string;
 }
