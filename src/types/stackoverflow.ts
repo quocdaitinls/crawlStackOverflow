@@ -14,7 +14,7 @@ export interface StackOverflowQuestion extends StackOverflowPost {
   tags: string[];
 }
 
-export type Question = {
+export type SOF = {
   title: string;
   question: StackOverflowQuestion;
   answers: StackOverflowPost[];
