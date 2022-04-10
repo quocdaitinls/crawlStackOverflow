@@ -1,6 +1,6 @@
 import {Cheerio, CheerioAPI, Element} from "cheerio";
 import {
-  Question,
+  SOF,
   StackOverflowPost,
   StackOverflowQuestion,
 } from "../types/stackoverflow";
@@ -31,7 +31,7 @@ export const parseQuestionPost = <E extends Element>(
   tags: getTags(doc, post),
 });
 
-const parseDoc = async (doc: CheerioAPI): Promise<Question> => {
+const parseDoc = async (doc: CheerioAPI): Promise<SOF> => {
   const questionPost = doc("#question");
   const answerNodes = doc(".answer");
 

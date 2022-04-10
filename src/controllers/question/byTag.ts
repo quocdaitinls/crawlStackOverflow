@@ -1,6 +1,6 @@
 import {RequestHandler} from "express";
 import {BaseRequestBody} from "../../types/request";
-import {Question} from "../../types/stackoverflow";
+import {SOF} from "../../types/stackoverflow";
 import {crawlFromIds} from "../../utils/crawl";
 import {fetchPostsIdByTag} from "../../utils/fetchPostIsdByTag";
 
@@ -8,7 +8,7 @@ interface ReqBody extends BaseRequestBody {
   tag: string;
 }
 
-export const generateByTag: RequestHandler<{}, Question[], ReqBody> = async (
+export const generateByTag: RequestHandler<{}, SOF[], ReqBody> = async (
   req,
   res
 ) => {

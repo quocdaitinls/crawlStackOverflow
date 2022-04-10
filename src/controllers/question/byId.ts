@@ -1,13 +1,13 @@
 import {RequestHandler} from "express";
 import {BaseRequestBody} from "../../types/request";
-import {Question} from "../../types/stackoverflow";
+import {SOF} from "../../types/stackoverflow";
 import {crawlFromId} from "../../utils/crawl";
 
 interface ReqBody extends BaseRequestBody {
   id: string;
 }
 
-export const generateById: RequestHandler<{}, Question, ReqBody> = async (
+export const generateById: RequestHandler<{}, SOF, ReqBody> = async (
   req,
   res
 ) => {
