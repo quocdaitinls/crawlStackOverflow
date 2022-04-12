@@ -1,1 +1,156 @@
-{}
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CrawlStackOverflow API",
+    "description": "Apis help you crawl data from StackOverflow.",
+    "contact": {
+      "email": "quocdaitinls@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://crawlstackoverflow.herokuapp.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "question"
+    }
+  ],
+  "paths": {
+    "/question/byurl": {
+      "post": {
+        "tags": ["question"],
+        "description": "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "requestBody": {
+          "description": "Inventory item to add",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrawlByUrl"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "search results matching criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SOF"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BaseRequestBody": {
+        "required": ["proxyToken"],
+        "type": "object",
+        "properties": {
+          "proxyToken": {
+            "type": "string",
+            "example": "I92gIo8KhWp18n1ZEKoFMg"
+          }
+        }
+      },
+      "CrawlByUrl": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseRequestBody"
+          },
+          {
+            "required": ["url"],
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "example": "https://stackoverflow.com/questions/394809/does-python-have-a-ternary-conditional-operator"
+              }
+            }
+          }
+        ]
+      },
+      "StackOverflowComment": {
+        "required": ["id", "value"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          }
+        }
+      },
+      "StackOverflowPost": {
+        "required": ["content", "id"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StackOverflowComment"
+            }
+          }
+        }
+      },
+      "StackOverflowQuestion": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StackOverflowPost"
+          },
+          {
+            "required": ["tags"],
+            "type": "object",
+            "properties": {
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SOF": {
+        "required": ["answers", "question", "title"],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Does Python have a ternary conditional operator?"
+          },
+          "question": {
+            "$ref": "#/components/schemas/StackOverflowQuestion"
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StackOverflowPost"
+            }
+          }
+        }
+      }
+    }
+  }
+}
