@@ -33,9 +33,119 @@
         },
         "responses": {
           "200": {
-            "description": "search results matching criteria",
+            "description": "Crawl by url success",
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SOF"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/question/byurls": {
+      "post": {
+        "tags": ["question"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrawlByUrls"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Crawl by urls success",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SOF"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/question/byid": {
+      "post": {
+        "tags": ["question"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrawlById"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Crawl by id success",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SOF"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/question/byids": {
+      "post": {
+        "tags": ["question"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrawlByIds"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Crawl by ids success",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SOF"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/question/bytag": {
+      "post": {
+        "tags": ["question"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrawlByTag"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Crawl by tag success",
+            "content": {
+              "aplication/json": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -73,6 +183,83 @@
               "url": {
                 "type": "string",
                 "example": "https://stackoverflow.com/questions/394809/does-python-have-a-ternary-conditional-operator"
+              }
+            }
+          }
+        ]
+      },
+      "CrawlByUrls": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseRequestBody"
+          },
+          {
+            "required": ["urls"],
+            "type": "object",
+            "properties": {
+              "urls": {
+                "type": "array",
+                "example": [
+                  "https://stackoverflow.com/questions/6470651/how-can-i-create-a-memory-leak-in-java",
+                  "https://stackoverflow.com/questions/8881291/why-is-char-preferred-over-string-for-passwords"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "CrawlById": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseRequestBody"
+          },
+          {
+            "required": ["id"],
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "394809"
+              }
+            }
+          }
+        ]
+      },
+      "CrawlByIds": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseRequestBody"
+          },
+          {
+            "required": ["ids"],
+            "type": "object",
+            "properties": {
+              "ids": {
+                "type": "array",
+                "example": [6470651, 8881291],
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "CrawlByTag": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseRequestBody"
+          },
+          {
+            "required": ["tag"],
+            "type": "object",
+            "properties": {
+              "tag": {
+                "type": "string",
+                "example": "python"
               }
             }
           }
