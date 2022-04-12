@@ -4,7 +4,8 @@ CrawlStackOverflow is a server that helps you crawl data of Stackoverflow.
 
 ## Deploy
 
-Link: https://crawlstackoverflow.herokuapp.com
+Product: https://crawlstackoverflow.herokuapp.com
+Docs: https://crawlstackoverflow.herokuapp.com/api-docs
 
 ## Proxy
 
