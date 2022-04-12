@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://crawlstackoverflow.herokuapp.com"
+      "url": "https://crawlstackoverflow.herokuapp.com/api"
     }
   ],
   "tags": [
@@ -22,9 +22,7 @@
     "/question/byurl": {
       "post": {
         "tags": ["question"],
-        "description": "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
         "requestBody": {
-          "description": "Inventory item to add",
           "content": {
             "application/json": {
               "schema": {
